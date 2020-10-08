@@ -2,8 +2,17 @@ const express = require('express');
 const next = require('next');
 const http = require('http');
 const socketIo = require('socket.io');
+const { formatMessage } = require('./src/formatMessages');
+const {
+  joinUser,
+  getCurrentUser,
+  leaveUser,
+  getRoomUsers,
+} = require('./src/users');
+
 require('colors');
 
+const bot = 'ChatBot';
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const nextApp = next({ dev });
@@ -15,10 +24,45 @@ const io = socketIo(server);
 
 io.on('connect', (socket) => {
   socket.emit('noti', 'welcome to nextjs');
+  socket.on('joinRoom', ({ username, room }) => {
+    const newUser = joinUser(socket.id, username, room);
+
+    socket.join(newUser.room);
+
+    socket.emit(
+      'message',
+      formatMessage(bot, `Welcome To ChatBot, ${username}`)
+    );
+    socket.broadcast
+      .to(newUser.room)
+      .emit('message', formatMessage(bot, `${username} is here`));
+
+    io.to(newUser.room).emit('roomUsers', {
+      room: newUser.room,
+      users: getRoomUsers(newUser.room),
+    });
+
+    socket.on('disconnect', () => {
+      const leftUser = leaveUser(socket.id);
+
+      if (leftUser) {
+        io.to(leftUser.room).emit(
+          'message',
+          formatMessage(bot, `${leftUser.username} has left`)
+        );
+
+        io.to(leftUser.room).emit('userLeft', leftUser.username);
+
+        io.to(leftUser.room).emit('roomUsers', {
+          room: leftUser.room,
+          users: getRoomUsers(leftUser.room),
+        });
+      }
+    });
+  });
 });
 
 nextApp.prepare().then(() => {
-
   expressApp.get('/api', (req, res) => {
     res
       .status(200)
