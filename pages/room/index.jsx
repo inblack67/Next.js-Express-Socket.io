@@ -33,7 +33,7 @@ const index = ({ username, room }) => {
 
   return (
     <div className='container'>
-      <div className='card black'>
+      <div className='card black grey darken-4'>
         <div className='card-content'>
           <span className='card-title'>{room}</span>
         </div>
@@ -65,18 +65,6 @@ const index = ({ username, room }) => {
         </form>
       </div>
       <Fragment>
-        <p className='flow-text center blue-text'>Users</p>
-        <ul className='collection white-text'>
-          {users.length > 0 ? (
-            users.map(({ username }, index) => (
-              <UserItem username={username} key={index} />
-            ))
-          ) : (
-            <p className='flow-text center red-text'>No users yet.</p>
-          )}
-        </ul>
-      </Fragment>
-      <Fragment>
         <p className='flow-text center blue-text'>Messages</p>
         <ul className='collection white-text'>
           {messages.length > 0 ? (
@@ -85,6 +73,18 @@ const index = ({ username, room }) => {
             ))
           ) : (
             <p className='flow-text center blue-text'>No messages yet.</p>
+          )}
+        </ul>
+      </Fragment>
+      <Fragment>
+        <p className='flow-text center blue-text'>Users</p>
+        <ul className='collection white-text'>
+          {users.length > 0 ? (
+            users.map(({ username }, index) => (
+              <UserItem username={username} key={index} />
+            ))
+          ) : (
+            <p className='flow-text center red-text'>No users yet.</p>
           )}
         </ul>
       </Fragment>
