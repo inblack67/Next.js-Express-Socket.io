@@ -28,18 +28,10 @@ const index = ({ username, room }) => {
 
   useEffect(() => {
     socket.on('roomUsers', ({ users }) => {
+      console.log(users);
       setUsers(users);
     });
-  }, []);
-
-  useEffect(() => {
-    socket.on('userLeft', (username) => {
-      console.log(username);
-      console.log(users);
-      setUsers((users) => users.filter((user) => user.username !== username));
-      console.log(users);
-    });
-  }, []);
+  });
 
   return (
     <div className='container'>

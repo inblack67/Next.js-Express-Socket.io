@@ -51,7 +51,7 @@ io.on('connect', (socket) => {
           formatMessage(bot, `${leftUser.username} has left`)
         );
 
-        io.to(leftUser.room).emit('userLeft', leftUser.username);
+        io.to(leftUser.room).emit('userLeft', leftUser.id);
 
         io.to(leftUser.room).emit('roomUsers', {
           room: leftUser.room,

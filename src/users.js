@@ -1,4 +1,4 @@
-const users = [];
+let users = [];
 
 exports.joinUser = (id, username, room) => {
   const user = { id, username, room };
@@ -13,7 +13,7 @@ exports.getCurrentUser = (id) => {
 
 exports.leaveUser = (id) => {
   const user = users.find((user) => user.id === id);
-  users.filter((user) => user.id !== id);
+  users = users.filter((user) => user.id !== id);
   return user;
 };
 
