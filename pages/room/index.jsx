@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import { server } from '../../src/server';
 import UserItem from '../../components/UserItem';
 import MessageItem from '../../components/MessageItem';
+import { useForm } from 'react-hook-form';
 
 let socket;
 
@@ -10,6 +11,11 @@ const index = ({ username, room }) => {
   const [noti, setNoti] = useState('');
   const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const { handleSubmit, register } = useForm({
+    defaultValues: {
+      message: 'Hello Hell',
+    },
+  });
 
   useEffect(() => {
     socket = new io(`${server}`);
@@ -22,7 +28,6 @@ const index = ({ username, room }) => {
       setMessages([message, ...messages]);
     });
     socket.on('roomUsers', ({ users }) => {
-      console.log(users);
       setUsers(users);
     });
   });
@@ -36,6 +41,26 @@ const index = ({ username, room }) => {
         <div className='card-action'>
           <a href='#!'>{username}</a>
         </div>
+      </div>
+      <div className='container'>
+        <form
+          onSubmit={handleSubmit(({ message }) => {
+            socket.emit('chatMessage', message);
+          })}
+        >
+          <div className='input-field'>
+            <input
+              type='text'
+              name='message'
+              ref={register({
+                required: true,
+              })}
+            />
+            <button type='submit' className='btn red'>
+              Post
+            </button>
+          </div>
+        </form>
       </div>
       <Fragment>
         <p className='flow-text center blue-text'>Users</p>

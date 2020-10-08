@@ -42,6 +42,14 @@ io.on('connect', (socket) => {
       users: getRoomUsers(newUser.room),
     });
 
+    socket.on('chatMessage', (message) => {
+      const currentUser = getCurrentUser(socket.id);
+      io.to(currentUser.room).emit(
+        'message',
+        formatMessage(currentUser.username, message)
+      );
+    });
+
     socket.on('disconnect', () => {
       const leftUser = leaveUser(socket.id);
 
