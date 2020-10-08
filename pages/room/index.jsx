@@ -56,9 +56,12 @@ const index = ({ username, room }) => {
                 required: true,
               })}
             />
-            <button type='submit' className='btn red'>
-              Post
-            </button>
+            <span className='helper-text blue-text'>Message</span>
+            <div className='input-field'>
+              <button type='submit' className='btn red'>
+                Post
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -82,7 +85,7 @@ const index = ({ username, room }) => {
               <MessageItem data={data} key={index} />
             ))
           ) : (
-            <p className='flow-text center green-text'>No messages yet.</p>
+            <p className='flow-text center blue-text'>No messages yet.</p>
           )}
         </ul>
       </Fragment>

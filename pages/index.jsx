@@ -26,7 +26,7 @@ const Home = () => {
               required: true,
             })}
           />
-          <label htmlFor='username'>Name</label>
+          <span className='helper-text blue-text'>Name</span>
         </div>
         <div className='input-field'>
           <select
@@ -43,11 +43,13 @@ const Home = () => {
             <option value='Next.js'>Next.js</option>
             <option value='GraphQL'>GraphQL</option>
           </select>
-          <label>Room</label>
+          <span className='helper-text blue-text'>Room</span>
         </div>
-        <button type='submit' className='btn red'>
-          Join Room
-        </button>
+        <div className='input-field'>
+          <button type='submit' className='btn red'>
+            Join Room
+          </button>
+        </div>
       </form>
     </div>
   );
