@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const http = require('http');
 const socketIo = require('socket.io');
+const cors = require('cors');
 const { formatMessage } = require('./src/formatMessages');
 const {
   joinUser,
@@ -21,6 +22,25 @@ const handle = nextApp.getRequestHandler();
 const expressApp = express();
 const server = http.createServer(expressApp);
 const io = socketIo(server);
+
+nextApp.prepare().then(() => {
+  expressApp.get('/api', (req, res) => {
+    res
+      .status(200)
+      .json({ success: true, msg: 'Custom express server up and running' });
+  });
+
+  expressApp.use(cors());
+
+  expressApp.all('*', (req, res) => {
+    return handle(req, res);
+  });
+
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.log(`Server started on port ${port}`.green.bold);
+  });
+});
 
 io.on('connect', (socket) => {
   socket.emit('noti', 'welcome to nextjs');
@@ -67,22 +87,5 @@ io.on('connect', (socket) => {
         });
       }
     });
-  });
-});
-
-nextApp.prepare().then(() => {
-  expressApp.get('/api', (req, res) => {
-    res
-      .status(200)
-      .json({ success: true, msg: 'Custom express server up and running' });
-  });
-
-  expressApp.all('*', (req, res) => {
-    return handle(req, res);
-  });
-
-  server.listen(port, (err) => {
-    if (err) throw err;
-    console.log(`Server started on port ${port}`.green.bold);
   });
 });
