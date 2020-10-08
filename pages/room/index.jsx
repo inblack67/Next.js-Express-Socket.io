@@ -1,6 +1,5 @@
 import { useEffect, useState, Fragment } from 'react';
 import io from 'socket.io-client';
-import { server } from '../../src/server';
 import UserItem from '../../components/UserItem';
 import MessageItem from '../../components/MessageItem';
 import { useForm } from 'react-hook-form';
@@ -18,7 +17,7 @@ const index = ({ username, room }) => {
   });
 
   useEffect(() => {
-    socket = new io(`${server}`);
+    socket = new io(`/`);
     socket.emit('joinRoom', { username, room });
   }, []);
 

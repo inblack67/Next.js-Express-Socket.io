@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "nodemon server",
-    "dev:next": "next dev",
-    "build": "next build",
     "start": "next start -p $PORT",
-    "heroku-postbuild": "npm run build"
+    "build": "next build"
   },
   "dependencies": {
     "axios": "^0.20.0",
