@@ -18,15 +18,9 @@ const index = ({ username, room }) => {
 
   useEffect(() => {
     socket.on('noti', (noti) => M.toast({ html: noti }));
-  }, [noti]);
-
-  useEffect(() => {
     socket.on('message', (message) => {
       setMessages([message, ...messages]);
     });
-  }, [messages]);
-
-  useEffect(() => {
     socket.on('roomUsers', ({ users }) => {
       console.log(users);
       setUsers(users);
