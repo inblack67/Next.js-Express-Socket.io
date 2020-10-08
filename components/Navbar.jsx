@@ -6,7 +6,12 @@ const Navbar = () => {
       <div className='nav-wrapper'>
         <div className='container'>
           <Link href='/'>
-            <a className='brand-logo'>
+            <a className='brand-logo hide-on-med-and-down'>
+              Next.js | <span className='red-text'>Socket.io</span>
+            </a>
+          </Link>
+          <Link href='/'>
+            <a className='hide-on-large-only'>
               Next.js | <span className='red-text'>Socket.io</span>
             </a>
           </Link>
